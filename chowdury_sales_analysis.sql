@@ -1,9 +1,4 @@
 
--- CAPSTONE 1: TEXAS SALES ANALYSIS
--- Territory: Texas
--- Region: Central
-
-
 -- QUESTION 1:
 -- What is the total revenue for Texas?
 -- What are the earliest and latest transaction dates?
@@ -14,7 +9,7 @@ SELECT
     MAX(store_sales.Transaction_Date) AS Latest_Date
 FROM sample_sales.store_sales
 JOIN sample_sales.store_locations
-ON store_sales.Store_ID = store_locations.StoreId
+    ON store_sales.Store_ID = store_locations.StoreId
 WHERE store_locations.State = 'Texas';
 
 
@@ -27,32 +22,35 @@ SELECT
     MONTH(store_sales.Transaction_Date) AS month
 FROM sample_sales.store_sales
 JOIN sample_sales.store_locations
-ON store_sales.Store_ID = store_locations.StoreId
+    ON store_sales.Store_ID = store_locations.StoreId
 WHERE store_locations.State = 'Texas'
 GROUP BY
     YEAR(store_sales.Transaction_Date),
     MONTH(store_sales.Transaction_Date)
-ORDER BY
-    year,
-    month;
+ORDER BY year, month;
 
 
 -- QUESTION 3:
 -- How does Texas sales revenue compare with the South Region?
+
 SELECT
-    SUM(CASE WHEN store_locations.State = 'Texas' THEN store_sales.Sale_Amount ELSE 0 END) AS Texas_Revenue,
-    sUM(store_sales.Sale_Amount) AS South_Region_Revenue
+    SUM(CASE
+        WHEN store_locations.State = 'Texas'
+        THEN store_sales.Sale_Amount
+        ELSE 0
+    END) AS Texas_Revenue,
+    SUM(store_sales.Sale_Amount) AS South_Region_Revenue
 FROM sample_sales.store_sales
 JOIN sample_sales.store_locations
     ON store_sales.Store_ID = store_locations.StoreId
 JOIN sample_sales.management
-    ON management.state = store_locations.State
-WHERE 
-    management.region = 'South';
+    ON management.State = store_locations.State
+WHERE management.Region = 'South';
 
 
 -- QUESTION 4:
--- How many transactions occurred each month in Texas by product category, and what was the average sale amount?
+-- How many transactions occurred each month in Texas
+-- by product category, and what was the average sale amount?
 
 SELECT
     YEAR(store_sales.Transaction_Date) AS Year,
@@ -60,7 +58,6 @@ SELECT
     inventory_categories.Category,
     COUNT(store_sales.id) AS Total_Transactions,
     ROUND(AVG(store_sales.Sale_Amount), 2) AS Average_Sale
-
 FROM sample_sales.store_sales
 JOIN sample_sales.store_locations
     ON store_sales.Store_ID = store_locations.StoreId
@@ -73,10 +70,7 @@ GROUP BY
     YEAR(store_sales.Transaction_Date),
     MONTH(store_sales.Transaction_Date),
     inventory_categories.Category
-ORDER BY
-    Year,
-    Month,
-    inventory_categories.Category;
+ORDER BY Year, Month, inventory_categories.Category;
 
 
 -- QUESTION 5:
@@ -97,4 +91,18 @@ GROUP BY
     store_locations.State
 ORDER BY Total_Revenue DESC;
 
+
+-- QUESTION 6:
+-- What should the business prioritize next quarter?
+
+-- Learning Note:
+-- Based on the analysis, I recommend investigating
+-- Dallas's lower sales performance compared with Beaumont.
+
+-- Management should review customer traffic, inventory,
+-- and marketing strategies at lower-performing stores.
+
+-- The company should also analyze monthly revenue trends
+-- and high-value product categories to improve sales
+-- and inventory planning for the next quarter.
 
