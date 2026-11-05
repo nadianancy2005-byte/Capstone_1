@@ -35,3 +35,21 @@ GROUP BY
 ORDER BY
     year,
     month;
+
+
+-- QUESTION 3:
+-- How does Texas sales revenue compare with the South Region?
+SELECT
+    SUM(CASE WHEN store_locations.State = 'Texas' THEN store_sales.Sale_Amount ELSE 0 END) AS Texas_Revenue,
+    sUM(store_sales.Sale_Amount) AS South_Region_Revenue
+FROM sample_sales.store_sales
+JOIN sample_sales.store_locations
+    ON store_sales.Store_ID = store_locations.StoreId
+JOIN sample_sales.management
+    ON management.state = store_locations.State
+WHERE 
+    management.region = 'South';
+
+
+
+
