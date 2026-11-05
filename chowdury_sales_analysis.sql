@@ -1,20 +1,12 @@
 
--- Capstone 1: Texas Sales Analysis
+-- CAPSTONE 1: TEXAS SALES ANALYSIS
 -- Territory: Texas
-
--- Learning Note: Find all stores located in Texas.
-SELECT *
-FROM sample_sales.store_locations
-WHERE State = 'Texas';
+-- Region: Central
 
 
-SELECT *
-FROM sample_sales.store_sales;
-
-
--- Question 1: Texas Revenue and Transaction Dates
--- Learning Note: Match Texas stores to their sales,
--- add their sale amounts, and find the first and last dates.
+-- QUESTION 1:
+-- What is the total revenue for Texas?
+-- What are the earliest and latest transaction dates?
 
 SELECT
     SUM(store_sales.Sale_Amount) AS Total_Revenue,
@@ -22,5 +14,24 @@ SELECT
     MAX(store_sales.Transaction_Date) AS Latest_Date
 FROM sample_sales.store_sales
 JOIN sample_sales.store_locations
-    ON store_sales.Store_ID = store_locations.StoreId
+ON store_sales.Store_ID = store_locations.StoreId
 WHERE store_locations.State = 'Texas';
+
+
+-- QUESTION 2:
+-- How much revenue did Texas generate each month and year?
+
+SELECT
+    SUM(store_sales.Sale_Amount) AS Total_Revenue,
+    YEAR(store_sales.Transaction_Date) AS year,
+    MONTH(store_sales.Transaction_Date) AS month
+FROM sample_sales.store_sales
+JOIN sample_sales.store_locations
+ON store_sales.Store_ID = store_locations.StoreId
+WHERE store_locations.State = 'Texas'
+GROUP BY
+    YEAR(store_sales.Transaction_Date),
+    MONTH(store_sales.Transaction_Date)
+ORDER BY
+    year,
+    month;
