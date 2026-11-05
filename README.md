@@ -37,4 +37,4 @@ I recommend investigating lower-performing stores like Dallas, studying successf
 - `Capstone_1_Notes.docx` — Analysis explanations and findings
 
 ## Capstone Video
-Video presentation link: Coming soon.
+https://youtu.be/thz82z3MYrk?si=5GjcLvRvZQBMjiHo
