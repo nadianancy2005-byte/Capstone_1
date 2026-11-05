@@ -62,23 +62,17 @@ SELECT
     ROUND(AVG(store_sales.Sale_Amount), 2) AS Average_Sale
 
 FROM sample_sales.store_sales
-
 JOIN sample_sales.store_locations
     ON store_sales.Store_ID = store_locations.StoreId
-
 JOIN sample_sales.products
     ON store_sales.Prod_Num = products.ProdNum
-
 JOIN sample_sales.inventory_categories
     ON products.Categoryid = inventory_categories.Categoryid
-
 WHERE store_locations.State = 'Texas'
-
 GROUP BY
     YEAR(store_sales.Transaction_Date),
     MONTH(store_sales.Transaction_Date),
     inventory_categories.Category
-
 ORDER BY
     Year,
     Month,
@@ -93,19 +87,14 @@ SELECT
     store_locations.StoreLocation,
     store_locations.State,
     SUM(store_sales.Sale_Amount) AS Total_Revenue
-
 FROM sample_sales.store_sales
-
 JOIN sample_sales.store_locations
     ON store_sales.Store_ID = store_locations.StoreId
-
 WHERE store_locations.State = 'Texas'
-
 GROUP BY
     store_locations.StoreId,
     store_locations.StoreLocation,
     store_locations.State
-
 ORDER BY Total_Revenue DESC;
 
 
